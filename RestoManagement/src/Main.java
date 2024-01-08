@@ -1,4 +1,5 @@
 import java.util.Scanner;
+
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Random;
@@ -37,6 +38,9 @@ public class Main {
 			System.out.println("Welcome!");
 			System.out.println("1. Login");
 			System.out.println("2. Register");
+			System.out.println("3. Reserve Table");
+			System.out.println("4. Reserve Restaurant");
+			
 			choice = scan.nextInt();
 			scan.nextLine();
 			
@@ -46,6 +50,12 @@ public class Main {
 				break;
 			case 2:
 				Register();
+				break;
+			case 3:
+				Reservation();
+				break;
+			case 4:
+				Restaurant();
 				break;
 			}
 		}
@@ -68,6 +78,75 @@ public class Main {
 					System.out.println("Wrong Input!");
 				}
 			} 
+		
+		void Reservation() {
+			int a;
+			System.out.println("Please Confirm How Many Peoples Eating: ");
+			a = scan.nextInt();
+			if(a <= 2) {
+				System.out.println("Table Confirmed! Your table is reserved in Romantic!");
+			} else if (a <= 4) {
+				System.out.println("Table Confirmed! Your table is reserved in General!");
+			} else if (a <= 10) {
+				System.out.println("Table Confirmed! Your table is reserved in Family!");
+			} else {
+				System.out.println("We're Out Of Table Please Book Another Table!");
+			}
+			do {
+				System.out.println("Please Confirm How Many Peoples Eating: ");
+				a = scan.nextInt();
+				if(a <= 2) {
+					System.out.println("Table Confirmed! Your table is reserved in Romantic!");
+				} else if (a <= 4) {
+					System.out.println("Table Confirmed! Your table is reserved in General!");
+				} else if (a <= 10) {
+					System.out.println("Table Confirmed! Your table is reserved in Family!");
+				} else {
+					System.out.println("We're Out Of Table Please Book Another Table!");
+				}
+			} while (a > 10);
+		}
+		
+		void Restaurant() {
+			System.out.println("Choose Your Restaurant: ");
+			int a;
+			do {				
+				System.out.println("1. Bandung");
+				System.out.println("2. Jakarta");
+				System.out.println("3. Bali");
+				System.out.println("4. Surabaya");
+				System.out.println("5. Samarinda");
+				System.out.println("6. Padang");
+				a = scan.nextInt();
+				scan.nextLine();
+				if(a < 1 || a > 6) {
+					System.out.println("No Restaurant Available!");
+				}
+			} while (a < 1 || a > 6);
+			if(a <= 3) {
+				System.out.println("You've Selected Main Restaurant!");				
+			} else if(a <= 6) {
+				System.out.println("You've Selected Local Special!");
+			}
+			int nampung = 0;
+			
+			try {
+				ResultSet hasil = Querys.SELECT(String.format("SELECT * FROM menuperlocation WHERE MenuID, MenuName, MenuPrice = '%s', '%s', '%s' ", 
+						a));
+				hasil.next();
+				String contain = hasil.getString("MenuID");
+				System.out.printf("%s",contain);
+				String contain1 = hasil.getString("MenuName");
+				System.out.printf("%s",contain1);
+				String container = hasil.getString("MenuPrice");
+				System.out.printf("%s",container);
+			} catch (Exception e) {
+				// TODO: handle exception
+				nampung = 0;
+				System.out.println(e);
+				System.out.println("Wrong Input!");
+			}
+		}
 		
 		
 	public static void main(String[] args) {
